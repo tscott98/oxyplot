@@ -651,20 +651,17 @@ namespace OxyPlot.Axes
                 step *= -1;
             }
 
-            var value = Math.Round(from / step) * step;
+            var startValue = Math.Round(from / step) * step;
             var numberOfValues = Math.Max((int)((to - from) / step), 1);
             var epsilon = step * 1e-3 * Math.Sign(step);
             var values = new List<double>(numberOfValues);
             var i = 0;
+			var lastValue = startValue;
 
-            while (value <= to + epsilon && i < maxTicks)
+            while (lastValue <= to + epsilon && i < maxTicks)
             {
-                i++;
-
-                // try to get rid of numerical noise
-                var v = Math.Round(value / step, 14) * step;
-                values.Add(v);
-                value += step;
+				lastValue = startValue + step * i++;				                
+                values.Add(lastValue);                
             }
 
             return values;
